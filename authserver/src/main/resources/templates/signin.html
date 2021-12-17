@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
 
@@ -11,7 +11,7 @@
 </head>
 <body class="text-center">
 <main class="form-signin">
-    <form>
+    <form method="post" th:action="@{/auth/signin}">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">

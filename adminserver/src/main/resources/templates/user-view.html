@@ -1,0 +1,87 @@
+<!--<!doctype html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+
+<!--    &lt;!&ndash; Bootstrap core CSS &ndash;&gt;-->
+<!--    <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Custom styles for this template &ndash;&gt;-->
+<!--    <link href="admin.css" rel="stylesheet">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">-->
+<!--    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Team Last Punch</a>-->
+<!--    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="navbar-nav">-->
+<!--        <div class="nav-item text-nowrap">-->
+<!--            <a th:href="@{/admin/signout}" class="nav-link px-3">Sign out</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
+
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">-->
+<!--            <div class="position-sticky pt-3">-->
+<!--                <ul class="nav flex-column">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link active" aria-current="page" href="#">-->
+<!--                            <span data-feather="home"></span>-->
+<!--                            Home-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </nav>-->
+
+<!--        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">-->
+<!--            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">-->
+<!--                <h1 class="h2">User Info</h1>-->
+<!--            </div>-->
+<!--            <form method="put" th:action="@{/admin/edit-user/}">-->
+<!--                <div class="col-12">-->
+<!--                    <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>-->
+<!--                    <input type="email" class="form-control" id="email" placeholder="you@example.com">-->
+<!--                    <div class="invalid-feedback">-->
+<!--                        Please enter a valid email address for shipping updates.-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-sm-6">-->
+<!--                    <label for="firstName" class="form-label">First name</label>-->
+<!--                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>-->
+<!--                    <div class="invalid-feedback">-->
+<!--                        Valid first name is required.-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-md-5">-->
+<!--                    <label for="country" class="form-label">Country</label>-->
+<!--                    <select class="form-select" id="country" required>-->
+<!--                        <option value="">Choose...</option>-->
+<!--                        <option>United States</option>-->
+<!--                    </select>-->
+<!--                    <div class="invalid-feedback">-->
+<!--                        Please select a valid country.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="float-right">-->
+<!--                    <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Confirm</button>-->
+<!--                    <a th:href="@{/signup}" class="w-100 btn btn-lg btn-outline-secondary">Cancel</a>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--            <form method="put" th:action="@{/auth/signin}">-->
+<!--                <div class="float-right">-->
+<!--                    <button class="w-100 btn btn-lg btn-outline-danger" type="submit">Delete user</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </main>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
