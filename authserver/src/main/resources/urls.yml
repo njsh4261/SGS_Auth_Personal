@@ -1,0 +1,6 @@
+personal-project:
+  url:
+    auth: auth_server_url
+    admin: admin_server_url
+    db: db_server_url
+    cache: cache_server_url

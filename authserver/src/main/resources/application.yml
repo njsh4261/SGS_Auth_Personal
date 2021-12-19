@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: db_server_url_here
+    username: db_username
+    password: db_password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
