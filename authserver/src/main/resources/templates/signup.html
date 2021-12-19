@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="signup.css" rel="stylesheet">
+</head>
+<body class="text-center">
+<main class="form-signup">
+    <form method="post" th:action="@{/auth/signup}" th:object="${userDto}">
+        <h1 class="h3 mb-3 fw-normal">Sign up</h1>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" placeholder="your@email.com" th:field="*{email}">
+            <label for="email">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}">
+            <label for="password">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="name" placeholder="name" th:field="*{name}">
+            <label for="name">Name</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Sign up</button>
+        <a th:href="@{/signin}" class="w-100 btn btn-lg btn-outline-danger">Cancel</a>
+    </form>
+</main>
+</body>
+</html>
