@@ -1,14 +1,21 @@
 package com.personalproject.authserver.controller;
 
+import com.personalproject.authserver.dto.LoginDto;
+import com.personalproject.authserver.dto.UserDto;
+import com.personalproject.authserver.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class LoginController {
-    private final String authServerUrl = "http://localhost:8081";
+public class AuthController {
+    private final AuthService authService;
+    private final String adminServerUrl = "http://localhost:8081";
+
+    @Autowired
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @GetMapping("/")
     public String index() {
@@ -22,32 +29,32 @@ public class LoginController {
     }
 
     @GetMapping("/signup")
-    public String showSignUpPage() {
+    public String showSignUpPage(@ModelAttribute UserDto userDto) {
         // if user is already signed in, redirect to admin page
         return "signup";
     }
 
     @PostMapping("/auth/signin")
-    public String signInHandle() {
+    public String signIn(LoginDto loginDto) {
         // validate user's info
         // if valid, create access & refresh token, save it into cache server, and hand it to the user
         // then redirect to admin page of the admin server
         // if the user is already signed in or invalid info is given, response as bad request
-        return "redirect:" + authServerUrl;
+        return "redirect:" + adminServerUrl;
     }
 
     @PostMapping("/auth/signup")
-    public String signUpHandle() {
+    public String signUp(UserDto userDto) {
         // add new user to DB
-        // if valid, create access & refresh token, save it into cache server, and hand it to the user
+        authService.signUp(userDto);
         // return to sign in page
-        // if the user is already signed in or invalid info is given, response as bad request
+        // if the user is already signed in or invalid info is given, show error message
         return "redirect:/signin";
     }
 
     @ResponseBody
     @DeleteMapping("/auth/signout")
-    public String signOutHandle() {
+    public String signOut() {
         // delete user's access & refresh token from cache server
         // if the user is already signed out or invalid info is given, response as bad request
         return "sign out";

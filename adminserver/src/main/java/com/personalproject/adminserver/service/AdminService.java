@@ -1,11 +1,11 @@
 package com.personalproject.adminserver.service;
 
-import com.personalproject.adminserver.domain.User;
+import com.personalproject.adminserver.entity.User;
 import com.personalproject.adminserver.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AdminService {
@@ -16,7 +16,7 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public List<User> getUserList() {
-        return adminRepository.findAll();
+    public Page<User> getUserList(Pageable pageable) {
+        return adminRepository.findAll(pageable);
     }
 }

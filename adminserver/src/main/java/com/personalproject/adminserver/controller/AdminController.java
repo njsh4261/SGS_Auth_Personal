@@ -1,18 +1,20 @@
 package com.personalproject.adminserver.controller;
 
-import com.personalproject.adminserver.domain.User;
+import com.personalproject.adminserver.entity.User;
 import com.personalproject.adminserver.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AdminController {
     private final AdminService adminService;
     private final String loginServerUrl = "http://localhost:8080";
+    private final int pageSize = 10;
 
     @Autowired
     public AdminController(AdminService adminService) {
@@ -25,27 +27,16 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String adminPage(Model model) {
-        List<User> userList = adminService.getUserList();
+    public String adminPage(Model model, @PageableDefault(size = pageSize) Pageable pageable) {
+        Page<User> userList = adminService.getUserList(pageable);
+
+        int startPage = Math.max(1, userList.getPageable().getPageNumber()-4);
+        int endPage = Math.min(userList.getTotalPages(), userList.getPageable().getPageNumber()+4);
+
         model.addAttribute("userList", userList);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         return "admin";
-    }
-
-    @GetMapping("/admin/user-view/{userId}")
-    public String showOneUserInfo(@PathVariable("userId") Long userId) {
-        return "user-view";
-    }
-
-    @ResponseBody
-    @PutMapping("/admin/edit-user/{userId}")
-    public String editSelectedUsers(@PathVariable("userId") Long userId) {
-        return "edit user " + userId.toString();
-    }
-
-    @ResponseBody
-    @DeleteMapping("/admin/delete-user/{userId}")
-    public String deleteSelectedUsers(@PathVariable("userId") Long userId) {
-        return "delete user " + userId.toString();
     }
 
     @GetMapping("/admin/signout")
