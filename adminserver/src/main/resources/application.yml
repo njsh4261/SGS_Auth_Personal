@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   error:
     whitelabel:
       enabled: true
@@ -14,3 +14,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
+
+personal-project:
+  url:
+    auth: auth_server_url
+    admin: admin_server_url
+    db: db_server_url
+    cache: cache_server_url
+  hashing:
+    alg: SHA-256
+    salt: your_salt_here
