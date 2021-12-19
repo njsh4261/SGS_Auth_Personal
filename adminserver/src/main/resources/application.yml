@@ -21,6 +21,3 @@ personal-project:
     admin: admin_server_url
     db: db_server_url
     cache: cache_server_url
-  hashing:
-    alg: SHA-256
-    salt: your_salt_here
