@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/common.css" rel="stylesheet">
+</head>
+<body>
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" th:href="@{/admin}">Team Last Punch</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+            <a th:href="@{/signout}" class="nav-link px-3">Sign out</a>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin}">
+                            <span data-feather="home"></span>
+                            Home
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Manage User</h1>
+            </div>
+            <form th:method="PUT" th:action="@{/admin/edit-user/{id}(id=${user.id})}" th:object="${user}">
+                <div class="d-flex flex-column pt-3 pb-2 mb-3 border-bottom">
+                    <input type="hidden" id="editUserId" th:value="${user.id}"/>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" th:field="*{email}">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="role" class="form-label" >Role</label>
+                        <select class="form-select" id="role" th:field="*{role}">
+                            <option value="normal_user">normal user</option>
+                            <option value="admin" th:selected="*{role} == 'admin'">admin</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="w-100 btn btn-outline-primary float-right" type="submit">Confirm</button>
+            </form>
+            <a class="w-100 btn btn-outline-secondary float-right" th:href="@{/admin}">Cancel</a>
+            <form th:method="DELETE" th:action="@{/admin/delete-user/{id}(id=${user.id})}">
+                <button class="w-100 btn btn-outline-danger float-right" type="submit">Delete user</button>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js"></script>
+</html>
