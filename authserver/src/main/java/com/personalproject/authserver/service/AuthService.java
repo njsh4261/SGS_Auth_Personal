@@ -6,11 +6,11 @@ import com.personalproject.authserver.entity.User;
 import com.personalproject.authserver.exception.EmailOrPasswordNotMatchException;
 import com.personalproject.authserver.exception.UserAlreadyExistException;
 import com.personalproject.authserver.logic.JsonWebToken;
+import com.personalproject.authserver.logic.TokenCookie;
 import com.personalproject.authserver.logic.TokenType;
 import com.personalproject.authserver.repository.AuthRepository;
 import com.personalproject.authserver.logic.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +24,16 @@ public class AuthService {
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
     private final JsonWebToken jsonWebToken;
-
-    @Value("${personal-project.cookie.access-token}")
-    private String accessTokenCookieName;
+    private final TokenCookie tokenCookie;
 
     @Autowired
-    public AuthService(AuthRepository authRepository, RedisService redisService, PasswordEncoder passwordEncoder, JsonWebToken jsonWebToken) {
+    public AuthService(AuthRepository authRepository, RedisService redisService, PasswordEncoder passwordEncoder,
+                       JsonWebToken jsonWebToken, TokenCookie tokenCookie) {
         this.authRepository = authRepository;
         this.redisService = redisService;
         this.passwordEncoder = passwordEncoder;
         this.jsonWebToken = jsonWebToken;
+        this.tokenCookie = tokenCookie;
     }
 
     @Transactional
@@ -55,8 +55,7 @@ public class AuthService {
         redisService.storeToken(accessToken);
 
         // store token in user's local cookie
-        Cookie accessTokenCookie = new Cookie(accessTokenCookieName, accessToken);
-        response.addCookie(accessTokenCookie);
+        tokenCookie.storeAccessToken(accessToken, response);
     }
 
     @Transactional
@@ -79,10 +78,7 @@ public class AuthService {
     @Transactional
     public void signOut(HttpServletResponse response) {
         // delete user's token from local cookie
-        Cookie accessTokenCookie = new Cookie(accessTokenCookieName, null);
-        accessTokenCookie.setMaxAge(0);
-        accessTokenCookie.setPath("/");
-        response.addCookie(accessTokenCookie);
+        tokenCookie.removeToken(response);
 
         // delete user's token from cache server
         redisService.removeToken();

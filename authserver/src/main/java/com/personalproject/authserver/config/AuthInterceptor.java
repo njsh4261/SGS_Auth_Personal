@@ -1,14 +1,13 @@
 package com.personalproject.authserver.config;
 
 import com.personalproject.authserver.logic.JsonWebToken;
+import com.personalproject.authserver.logic.TokenCookie;
 import com.personalproject.authserver.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +22,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     private JsonWebToken jsonWebToken;
 
     @Autowired
+    private TokenCookie tokenCookie;
+
+    @Autowired
     public AuthInterceptor(RedisService redisService) {
         this.redisService = redisService;
     }
@@ -31,17 +33,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         // access token should exist in cookie
-        Cookie accessTokenCookie = WebUtils.getCookie(request, "accessToken");
-        if(accessTokenCookie != null) {
+        String accessToken = tokenCookie.getAccessToken(request);
+        if(accessToken != null) {
             // access token should be valid
-            String accessToken = accessTokenCookie.getValue();
-            if(jsonWebToken.verifyToken(accessToken)) {
+            if(jsonWebToken.verifyToken(accessToken, response)) {
                 // if token is valid, redirect to admin server
                 response.sendRedirect(adminServerUrl);
                 return false;
             }
             // remove token from cookie
-            accessTokenCookie.setMaxAge(0);
+            tokenCookie.removeToken(response);
         }
         // remove token in cache server if exists
         redisService.removeToken();

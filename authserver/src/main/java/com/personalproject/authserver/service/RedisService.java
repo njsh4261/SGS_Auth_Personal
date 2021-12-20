@@ -53,7 +53,7 @@ public class RedisService {
         redisTemplate.opsForValue().set(this.getClientIp(), token, Duration.ofMillis(accessTokenLifespan));
     }
 
-    public String fetchToken() {
+    public String getToken() {
         return redisTemplate.opsForValue().get(this.getClientIp());
     }
 
