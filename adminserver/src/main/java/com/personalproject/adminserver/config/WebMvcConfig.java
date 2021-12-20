@@ -1,4 +1,4 @@
-package com.personalproject.authserver.config;
+package com.personalproject.adminserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

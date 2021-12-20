@@ -2,19 +2,28 @@ package com.personalproject.authserver.controller;
 
 import com.personalproject.authserver.dto.LoginDto;
 import com.personalproject.authserver.dto.UserDto;
+import com.personalproject.authserver.logic.TokenCookie;
 import com.personalproject.authserver.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthController {
     private final AuthService authService;
-    private final String adminServerUrl = "http://localhost:8081";
+    private final TokenCookie tokenCookie;
+
+    @Value("${personal-project.url.admin}")
+    private String adminServerUrl;
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, TokenCookie tokenCookie) {
         this.authService = authService;
+        this.tokenCookie = tokenCookie;
     }
 
     @GetMapping("/")
@@ -23,40 +32,32 @@ public class AuthController {
     }
 
     @GetMapping("/signin")
-    public String showSignInPage() {
-        // if user is already signed in, redirect to admin page
+    public String showSignInPage(@ModelAttribute LoginDto loginDto) {
         return "signin";
     }
 
     @GetMapping("/signup")
     public String showSignUpPage(@ModelAttribute UserDto userDto) {
-        // if user is already signed in, redirect to admin page
         return "signup";
     }
 
     @PostMapping("/auth/signin")
-    public String signIn(LoginDto loginDto) {
-        // validate user's info
-        // if valid, create access & refresh token, save it into cache server, and hand it to the user
-        // then redirect to admin page of the admin server
-        // if the user is already signed in or invalid info is given, response as bad request
+    public String signIn(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
+        authService.signIn(loginDto, response);
+        String token = tokenCookie.getAccessToken(request);
         return "redirect:" + adminServerUrl;
     }
 
     @PostMapping("/auth/signup")
     public String signUp(UserDto userDto) {
-        // add new user to DB
         authService.signUp(userDto);
-        // return to sign in page
-        // if the user is already signed in or invalid info is given, show error message
-        return "redirect:/signin";
+        return "redirect:/signin"; // return to sign-in page
     }
 
     @ResponseBody
     @DeleteMapping("/auth/signout")
-    public String signOut() {
-        // delete user's access & refresh token from cache server
-        // if the user is already signed out or invalid info is given, response as bad request
+    public String signOut(HttpServletResponse response) {
+        authService.signOut(response);
         return "sign out";
     }
 }

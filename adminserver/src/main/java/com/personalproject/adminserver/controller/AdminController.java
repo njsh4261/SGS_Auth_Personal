@@ -8,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AdminController {
@@ -39,11 +42,9 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/admin/signout")
-    public String signOut() {
-        // send 'DELETE /auth/signout' to login server
-        // if response status is 200 ok, redirect to sign in page
-        // if something trouble with logging out, stay in the page
+    @GetMapping("/signout")
+    public String signOut(HttpServletResponse response) {
+        adminService.signOut(response);
         return "redirect:" + loginServerUrl;
     }
 }
