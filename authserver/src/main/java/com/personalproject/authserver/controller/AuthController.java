@@ -58,6 +58,6 @@ public class AuthController {
     @DeleteMapping("/auth/signout")
     public String signOut(HttpServletResponse response) {
         authService.signOut(response);
-        return "sign out";
+        return "Sign out: token is removed";
     }
 }

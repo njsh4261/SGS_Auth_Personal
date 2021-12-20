@@ -15,17 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class AdminController {
     private final AdminService adminService;
-    private final String loginServerUrl = "http://localhost:8080";
     private final int pageSize = 10;
 
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
-    }
-
-    @GetMapping("/")
-    public String index(){
-        return "redirect:/admin";
     }
 
     @GetMapping("/admin")
@@ -44,6 +38,6 @@ public class AdminController {
     @GetMapping("/signout")
     public String signOut(HttpServletResponse response) {
         adminService.signOut(response);
-        return "redirect:" + loginServerUrl;
+        return "redirect:/signin";
     }
 }

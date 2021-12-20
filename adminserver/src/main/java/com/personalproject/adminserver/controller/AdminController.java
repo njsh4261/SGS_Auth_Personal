@@ -1,22 +1,27 @@
 package com.personalproject.adminserver.controller;
 
+import com.personalproject.adminserver.dto.LoginTokenDto;
 import com.personalproject.adminserver.entity.User;
 import com.personalproject.adminserver.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AdminController {
     private final AdminService adminService;
-    private final String loginServerUrl = "http://localhost:8080";
+
+    @Value("${personal-project.url.auth}")
+    private String authServerUrl;
+
     private final int pageSize = 10;
 
     @Autowired
@@ -42,9 +47,19 @@ public class AdminController {
         return "admin";
     }
 
+    @Transactional
+    @ResponseBody
+    @PostMapping("/signin")
+    @CrossOrigin("${personal-project.url.auth}")
+    public String signIn(@RequestBody LoginTokenDto loginTokenDto, HttpServletResponse response) {
+        adminService.signIn(loginTokenDto.getToken(), response);
+        return "Sign in: token is stored";
+    }
+
+    @Transactional
     @GetMapping("/signout")
     public String signOut(HttpServletResponse response) {
         adminService.signOut(response);
-        return "redirect:" + loginServerUrl;
+        return "redirect:" + authServerUrl;
     }
 }

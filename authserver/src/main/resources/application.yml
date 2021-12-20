@@ -33,3 +33,4 @@ personal-project:
   cookie:
     access-token: "accessToken"
     refresh-token: "refreshToken"
+    domain: "http://localhost:8081"
