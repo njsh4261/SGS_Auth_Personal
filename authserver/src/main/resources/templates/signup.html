@@ -7,10 +7,10 @@
     <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="signup.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
 </head>
 <body class="text-center">
-<main class="form-signup">
+<main class="form-sign">
     <form method="post" th:action="@{/auth/signup}" th:object="${userDto}">
         <h1 class="h3 mb-3 fw-normal">Sign up</h1>
         <div class="form-floating">

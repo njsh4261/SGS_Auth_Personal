@@ -1,5 +1,6 @@
 package com.personalproject.authserver.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
