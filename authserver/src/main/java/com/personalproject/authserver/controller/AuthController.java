@@ -2,24 +2,28 @@ package com.personalproject.authserver.controller;
 
 import com.personalproject.authserver.dto.LoginDto;
 import com.personalproject.authserver.dto.UserDto;
+import com.personalproject.authserver.logic.TokenCookie;
 import com.personalproject.authserver.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthController {
     private final AuthService authService;
+    private final TokenCookie tokenCookie;
 
     @Value("${personal-project.url.admin}")
     private String adminServerUrl;
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, TokenCookie tokenCookie) {
         this.authService = authService;
+        this.tokenCookie = tokenCookie;
     }
 
     @GetMapping("/")
@@ -28,7 +32,7 @@ public class AuthController {
     }
 
     @GetMapping("/signin")
-    public String showSignInPage() {
+    public String showSignInPage(@ModelAttribute LoginDto loginDto) {
         return "signin";
     }
 
@@ -38,8 +42,9 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signin")
-    public String signIn(LoginDto loginDto, HttpServletResponse response) {
+    public String signIn(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
         authService.signIn(loginDto, response);
+        String token = tokenCookie.getAccessToken(request);
         return "redirect:" + adminServerUrl;
     }
 

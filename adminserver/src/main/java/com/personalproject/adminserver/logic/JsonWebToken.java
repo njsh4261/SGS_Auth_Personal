@@ -1,7 +1,7 @@
-package com.personalproject.authserver.logic;
+package com.personalproject.adminserver.logic;
 
-import com.personalproject.authserver.entity.User;
-import com.personalproject.authserver.service.RedisService;
+import com.personalproject.adminserver.entity.User;
+import com.personalproject.adminserver.service.RedisService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

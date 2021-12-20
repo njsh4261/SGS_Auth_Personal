@@ -1,4 +1,4 @@
-package com.personalproject.authserver.service;
+package com.personalproject.adminserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,3 +45,4 @@ public class RedisService {
         redisTemplate.delete(this.getClientIp());
     }
 }
+
