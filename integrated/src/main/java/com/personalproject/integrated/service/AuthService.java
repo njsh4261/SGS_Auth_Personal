@@ -1,23 +1,19 @@
-package com.personalproject.authserver.service;
+package com.personalproject.integrated.service;
 
-import com.personalproject.authserver.dto.LoginDto;
-import com.personalproject.authserver.dto.LoginTokenDto;
-import com.personalproject.authserver.dto.UserDto;
-import com.personalproject.authserver.entity.User;
-import com.personalproject.authserver.exception.EmailOrPasswordNotMatchException;
-import com.personalproject.authserver.exception.UserAlreadyExistException;
-import com.personalproject.authserver.logic.JsonWebToken;
-import com.personalproject.authserver.logic.TokenCookie;
-import com.personalproject.authserver.logic.TokenType;
-import com.personalproject.authserver.repository.AuthRepository;
-import com.personalproject.authserver.logic.PasswordEncoder;
+import com.personalproject.integrated.dto.LoginDto;
+import com.personalproject.integrated.dto.UserDto;
+import com.personalproject.integrated.entity.User;
+import com.personalproject.integrated.exception.EmailOrPasswordNotMatchException;
+import com.personalproject.integrated.exception.UserAlreadyExistException;
+import com.personalproject.integrated.logic.JsonWebToken;
+import com.personalproject.integrated.logic.PasswordEncoder;
+import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.TokenType;
+import com.personalproject.integrated.repository.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -28,9 +24,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JsonWebToken jsonWebToken;
     private final TokenCookie tokenCookie;
-
-    @Value("${personal-project.url.admin}")
-    private String adminServerUrl;
 
     @Autowired
     public AuthService(AuthRepository authRepository, RedisService redisService, PasswordEncoder passwordEncoder,
@@ -56,15 +49,6 @@ public class AuthService {
         // if valid, create access token
         // TODO: refresh token is also required
         String accessToken = jsonWebToken.createToken(user.get(), TokenType.ACCESS);
-
-        // send access token to admin server
-        WebClient webClient = WebClient.create(adminServerUrl);
-        webClient.post()
-                .uri("/signin")
-                .bodyValue(LoginTokenDto.builder().token(accessToken).build())
-                .retrieve()
-                .bodyToMono(LoginTokenDto.class)
-                .block();
 
         // save token into cache server
         redisService.storeToken(accessToken);

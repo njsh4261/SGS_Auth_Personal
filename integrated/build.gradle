@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.personalproject'
+group = 'com.personal_project'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -23,14 +23,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
 }
 
 test {

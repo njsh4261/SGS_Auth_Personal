@@ -1,9 +1,9 @@
-package com.personalproject.authserver.controller;
+package com.personalproject.integrated.controller;
 
-import com.personalproject.authserver.dto.LoginDto;
-import com.personalproject.authserver.dto.UserDto;
-import com.personalproject.authserver.logic.TokenCookie;
-import com.personalproject.authserver.service.AuthService;
+import com.personalproject.integrated.dto.LoginDto;
+import com.personalproject.integrated.dto.UserDto;
+import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -58,6 +58,6 @@ public class AuthController {
     @DeleteMapping("/auth/signout")
     public String signOut(HttpServletResponse response) {
         authService.signOut(response);
-        return "Sign out: token is removed";
+        return "sign out";
     }
 }
