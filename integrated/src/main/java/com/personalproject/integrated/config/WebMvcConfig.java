@@ -19,10 +19,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(withoutTokenInterceptor).addPathPatterns(
-                "/", "/signin", "/signup", "/auth"
+                "/signin", "/signup"
         );
         registry.addInterceptor(withTokenInterceptor).addPathPatterns(
-                "/", "/admin", "/signout"
+                "/admin"
         );
     }
 }

@@ -18,15 +18,16 @@ public class TokenCookie {
 
     private void storeToken(String token, String cookieName, HttpServletResponse response){
         Cookie accessTokenCookie = new Cookie(cookieName, token);
+        accessTokenCookie.setPath("/");
         response.addCookie(accessTokenCookie);
     }
 
     public void storeAccessToken(String token, HttpServletResponse response) {
-        storeToken(token, accessTokenCookieName, response);
+        storeToken(token, "accessToken", response);
     }
 
     public void storeRefreshToken(String token, HttpServletResponse response) {
-        storeToken(token, refreshTokenCookieName, response);
+        storeToken(token, "refreshToken", response);
     }
 
     private Cookie getAccessTokenCookie(HttpServletRequest request) {

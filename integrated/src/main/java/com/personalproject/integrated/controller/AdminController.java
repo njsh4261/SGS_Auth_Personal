@@ -34,10 +34,4 @@ public class AdminController {
         model.addAttribute("endPage", endPage);
         return "admin";
     }
-
-    @GetMapping("/signout")
-    public String signOut(HttpServletResponse response) {
-        adminService.signOut(response);
-        return "redirect:/signin";
-    }
 }

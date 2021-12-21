@@ -64,11 +64,12 @@ public class AuthService {
             throw new UserAlreadyExistException("User already exists.");
         }
 
-        User user = new User(
-                userDto.getEmail(),
-                passwordEncoder.encode(userDto.getPassword()),
-                userDto.getName()
-        );
+        User user = User.builder()
+                .email(userDto.getEmail())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .name(userDto.getName())
+                .role("normal_user")
+                .build();
 
         // add new user to DB
         authRepository.save(user);

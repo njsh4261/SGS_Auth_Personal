@@ -44,8 +44,7 @@ public class AuthController {
     @PostMapping("/auth/signin")
     public String signIn(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
         authService.signIn(loginDto, response);
-        String token = tokenCookie.getAccessToken(request);
-        return "redirect:" + adminServerUrl;
+        return "redirect:/admin";
     }
 
     @PostMapping("/auth/signup")
@@ -54,10 +53,9 @@ public class AuthController {
         return "redirect:/signin"; // return to sign-in page
     }
 
-    @ResponseBody
-    @DeleteMapping("/auth/signout")
+    @DeleteMapping("/signout")
     public String signOut(HttpServletResponse response) {
         authService.signOut(response);
-        return "sign out";
+        return "redirect:/signin"; // return to sign-in page
     }
 }
