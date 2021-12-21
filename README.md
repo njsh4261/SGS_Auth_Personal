@@ -13,7 +13,7 @@
     - Token을 server side에서 캐싱하는 용도로 사용
 
 ## How to Run
-- `/application.yml` 템플릿을 `/integrated/src/main/resources/application.yml`으로 복사, `_here`으로 끝나는 항목을 개인 환경에 따라 수정
+- `/integrated/src/main/resources/application.yml`에서 `_here`으로 끝나는 항목을 개인 환경에 따라 수정
 - `personal-project.url.auth`와 `personal-project.url.admin`은 Spring Boot server url과 동일
 - 설정 후 아래 명령어대로 build & run (Windows는 `gradlew.bat`으로 build)
 ```
