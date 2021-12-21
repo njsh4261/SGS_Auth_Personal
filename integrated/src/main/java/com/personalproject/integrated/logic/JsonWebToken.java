@@ -46,9 +46,9 @@ public class JsonWebToken {
 
     public boolean verifyToken(String token, HttpServletResponse response) {
         try {
-            Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
             String tokenCached = redisService.getToken();
-            if(claims.getExpiration().before(new Date()) && Objects.equals(token, tokenCached)) {
+            if(claims.getExpiration().after(new Date()) && token.equals(tokenCached)) {
                 // if token is valid, update its expiration and store it in both client cookie and cache server
                 String updatedToken = updateTokenExpiration(claims);
                 redisService.storeToken(updatedToken);
@@ -66,7 +66,7 @@ public class JsonWebToken {
     }
 
     private String updateTokenExpiration(Claims claims) {
-        TokenType tokenType = (TokenType) claims.get("type");
+        TokenType tokenType = TokenType.valueOf((String) claims.get("type"));
         return Jwts.builder()
                 .setSubject(claims.getSubject())
                 .claim("type", tokenType)

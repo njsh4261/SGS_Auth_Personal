@@ -53,7 +53,7 @@ public class AuthController {
         return "redirect:/signin"; // return to sign-in page
     }
 
-    @DeleteMapping("/signout")
+    @GetMapping("/signout")
     public String signOut(HttpServletResponse response) {
         authService.signOut(response);
         return "redirect:/signin"; // return to sign-in page
