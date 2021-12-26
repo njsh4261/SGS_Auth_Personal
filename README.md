@@ -22,4 +22,31 @@
 ```
 
 ## Architecture
-![](https://github.com/njsh4261/auth/blob/main/architecture_simple.drawio.png)
+![](https://github.com/njsh4261/auth/blob/main/architecture.png)
+
+## Views
+![](https://github.com/njsh4261/auth/blob/main/signin.png)
+- 로그인 페이지
+- 이메일 또는 비밀번호가 틀릴 경우 에러 메시지 표시
+- 유효한 토큰 인증 정보가 있으면 관리자 페이지로 리다이렉트
+
+![](https://github.com/njsh4261/auth/blob/main/signup.png)
+- 회원가입 페이지
+- 이미 가입한 이메일로 가입 시도할 경우 에러 메시지 표시
+- 유효한 토큰 인증 정보가 있으면 관리자 페이지로 리다이렉트
+
+![](https://github.com/njsh4261/auth/blob/main/admin.png)
+- 관리자 페이지
+- 회원 목록을 표시
+- 현재 접속한 유저가 admin 권한일 경우 각 유저의 이름에 유저 정보 수정 페이지 링크 표시
+  - normal user 권한일 경우 링크가 표시되지 않음
+- 유효한 토큰 인증 정보가 없으면 로그인 페이지로 리다이렉트
+
+![](https://github.com/njsh4261/auth/blob/main/userpage.png)
+- 유저 정보 수정 페이지
+- 유저의 이메일, 이름, 권한을 수정 가능
+- 현재 접속한 유저가 스스로를 삭제하려 하는 경우 관리자 페이지로 리다이렉트
+- 현재 접속한 유저가 normal user 권한인 상태로 비정상적으로 접근한 경우 관리자 페이지로 리다이렉트
+- 유효한 토큰 인증 정보가 없으면 로그인 페이지로 리다이렉트
+
+## API Doc

@@ -5,15 +5,20 @@ server:
       enabled: false
 
 spring:
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
   mvc:
     hiddenmethod:
       filter:
         enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: db_url_here
-    username: db_username_here
-    password: db_password_here
+    url: change_here
+    username: change_here
+    password: change_here
   jpa:
     show-sql: true
     hibernate:
@@ -21,19 +26,19 @@ spring:
 
 personal-project:
   url:
-    auth: auth_server_url_here
-    admin: admin_server_url_here
+    auth: change_here
+    admin: change_here
   hashing:
     algorithm: SHA-256
-    salt: your_salt_here
+    salt: change_here
   jwt:
-    secret: your_secret_here
+    secret: change_here
     lifespan-millisecond:
       access-token: 600000 # 1000 * 60 * 10 = 10 minutes
       refresh-token: 10800000 # 1000 * 60 * 60 * 3 = 3 hours
   redis:
-    host: cache_server_host_url_here
-    port: cache_server_port_here
+    host: change_here
+    port: change_here
   cookie:
     access-token: "accessToken"
     refresh-token: "refreshToken"
