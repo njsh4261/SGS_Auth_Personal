@@ -1,6 +1,7 @@
 package com.personalproject.integrated.controller;
 
 import com.personalproject.integrated.entity.User;
+import com.personalproject.integrated.logic.role.UserRole;
 import com.personalproject.integrated.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,16 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletResponse;
-
 @Controller
 public class AdminController {
     private final AdminService adminService;
+    private final UserRole userRole;
     private final int pageSize = 10;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, UserRole userRole) {
         this.adminService = adminService;
+        this.userRole = userRole;
     }
 
     @GetMapping("/admin")
@@ -32,6 +33,7 @@ public class AdminController {
         model.addAttribute("userList", userList);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("currentUserRole", userRole.getRole());
         return "admin";
     }
 }

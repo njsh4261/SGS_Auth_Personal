@@ -1,4 +1,4 @@
-package com.personalproject.authserver.logic;
+package com.personalproject.integrated.logic.token;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,21 +16,18 @@ public class TokenCookie {
     @Value("${personal-project.cookie.refresh-token}")
     private String refreshTokenCookieName;
 
-    @Value("${personal-project.cookie.domain}")
-    private String cookieDomain;
-
     private void storeToken(String token, String cookieName, HttpServletResponse response){
         Cookie accessTokenCookie = new Cookie(cookieName, token);
-        accessTokenCookie.setDomain(cookieDomain);
+        accessTokenCookie.setPath("/");
         response.addCookie(accessTokenCookie);
     }
 
     public void storeAccessToken(String token, HttpServletResponse response) {
-        storeToken(token, accessTokenCookieName, response);
+        storeToken(token, "accessToken", response);
     }
 
     public void storeRefreshToken(String token, HttpServletResponse response) {
-        storeToken(token, refreshTokenCookieName, response);
+        storeToken(token, "refreshToken", response);
     }
 
     private Cookie getAccessTokenCookie(HttpServletRequest request) {

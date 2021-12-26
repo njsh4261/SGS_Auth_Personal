@@ -22,4 +22,47 @@
 ```
 
 ## Architecture
-![](https://github.com/njsh4261/auth/blob/main/architecture_simple.drawio.png)
+![architecture](https://user-images.githubusercontent.com/54832818/147417338-6908722b-7f70-41a5-baff-0652e0c29431.png)
+
+## Views
+![signin](https://user-images.githubusercontent.com/54832818/147417339-1f2614fc-6d69-430f-a060-a2f94fb85603.png)
+- 로그인 페이지
+- 이메일 또는 비밀번호가 틀릴 경우 에러 메시지 표시
+- 유효한 토큰 인증 정보가 있으면 관리자 페이지로 리다이렉트
+
+![signup](https://user-images.githubusercontent.com/54832818/147417340-e074d122-3658-4437-a481-f16ef5a4cceb.png)
+- 회원가입 페이지
+- 이미 가입한 이메일로 가입 시도할 경우 에러 메시지 표시
+- 유효한 토큰 인증 정보가 있으면 관리자 페이지로 리다이렉트
+
+![admin](https://user-images.githubusercontent.com/54832818/147417336-85bf4793-6fef-4498-b622-7c54ddff6801.png)
+- 관리자 페이지
+- 회원 목록을 표시
+- 현재 접속한 유저가 admin 권한일 경우 각 유저의 이름에 유저 정보 수정 페이지 링크 표시
+  - normal user 권한일 경우 링크가 표시되지 않음
+- 유효한 토큰 인증 정보가 없으면 로그인 페이지로 리다이렉트
+
+![userpage](https://user-images.githubusercontent.com/54832818/147417341-fe93e16d-262f-41f6-9610-d26bae22d6ee.png)
+- 유저 정보 수정 페이지
+- 유저의 이메일, 이름, 권한을 수정 가능
+- 현재 접속한 유저가 스스로를 삭제하려 하는 경우 관리자 페이지로 리다이렉트
+- 현재 접속한 유저가 normal user 권한인 상태로 비정상적으로 접근한 경우 관리자 페이지로 리다이렉트
+- 유효한 토큰 인증 정보가 없으면 로그인 페이지로 리다이렉트
+
+## API Doc
+| Method | URI                     | Desc                | Body     | 토큰 필요 |
+|--------|-------------------------|---------------------|----------|-------|
+| GET    | /                       | 로그인 페이지로 리다이렉트      || X        |
+| GET    | /signin                 | 로그인 페이지 표시          || X        |
+| GET    | /signup                 | 회원가입 페이지 표시         || X        |
+| POST   | /auth/signin            | 로그인 요청              | LoginDto | X    |
+| POST   | /auth/signup            | 회원가입 요청             | UserDto  | X        |
+| GET    | /signout                | 로그아웃 요청             || X        |
+| GET    | /admin                  | 관리자 페이지 표시          || O        |
+| GET    | /admin/user-view        | 유저 정보 수정 페이지 표시     || O        |
+| PUT    | /admin/edit-user/{id}   | {id}에 해당하는 유저 정보 수정 | User     | O        |
+| DELETE | /admin/delete-user/{id} | {id}에 해당하는 유저 삭제    || O        |
+
+- LoginDto: 이메일, 비밀번호
+- UserDto: 이메일, 비밀번호, 이름
+- User: 이메일, 이름, 권한

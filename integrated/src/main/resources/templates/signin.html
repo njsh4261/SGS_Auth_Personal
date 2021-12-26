@@ -11,6 +11,9 @@
 </head>
 <body class="text-center">
 <main class="form-sign">
+    <div class="alert alert-warning " role="alert" th:if="${error_msg}">
+        <p th:text="${error_msg}">error message</p>
+    </div>
     <form method="post" th:action="@{/auth/signin}" th:object="${loginDto}">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
         <div class="form-floating">

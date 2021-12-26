@@ -1,7 +1,8 @@
 package com.personalproject.integrated.config;
 
-import com.personalproject.integrated.logic.JsonWebToken;
-import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.role.UserRole;
+import com.personalproject.integrated.logic.token.JsonWebToken;
+import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,20 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class WithTokenInterceptor implements HandlerInterceptor {
-    private RedisService redisService;
+    private final RedisService redisService;
+    private final JsonWebToken jsonWebToken;
+    private final TokenCookie tokenCookie;
 
     @Value("${personal-project.url.auth}")
     private String authServerUrl;
 
     @Autowired
-    private JsonWebToken jsonWebToken;
-
-    @Autowired
-    private TokenCookie tokenCookie;
-
-    @Autowired
-    public WithTokenInterceptor(RedisService redisService) {
+    public WithTokenInterceptor(RedisService redisService, JsonWebToken jsonWebToken, TokenCookie tokenCookie, UserRole userRole) {
         this.redisService = redisService;
+        this.jsonWebToken = jsonWebToken;
+        this.tokenCookie = tokenCookie;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class WithTokenInterceptor implements HandlerInterceptor {
                 // proceed if token is valid
                 return true;
             }
-            // remove token from cookie
+            // remove invalid token from cookie
             tokenCookie.removeToken(response);
         }
         // remove token in cache server if exists
