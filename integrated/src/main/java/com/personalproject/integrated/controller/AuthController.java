@@ -2,11 +2,14 @@ package com.personalproject.integrated.controller;
 
 import com.personalproject.integrated.dto.LoginDto;
 import com.personalproject.integrated.dto.UserDto;
+import com.personalproject.integrated.exception.EmailOrPasswordNotMatchException;
+import com.personalproject.integrated.exception.UserAlreadyExistException;
 import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,15 +45,25 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signin")
-    public String signIn(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
-        authService.signIn(loginDto, response);
-        return "redirect:/admin";
+    public String signIn(Model model, LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            authService.signIn(loginDto, response);
+            return "redirect:/admin";
+        } catch(EmailOrPasswordNotMatchException e) {
+            model.addAttribute("error_msg", e.getMessage());
+            return "signin";
+        }
     }
 
     @PostMapping("/auth/signup")
-    public String signUp(UserDto userDto) {
-        authService.signUp(userDto);
-        return "redirect:/signin"; // return to sign-in page
+    public String signUp(Model model, UserDto userDto) {
+        try {
+            authService.signUp(userDto);
+            return "redirect:/signin"; // return to sign-in page
+        } catch(UserAlreadyExistException e) {
+            model.addAttribute("error_msg", e.getMessage());
+            return "signup";
+        }
     }
 
     @GetMapping("/signout")

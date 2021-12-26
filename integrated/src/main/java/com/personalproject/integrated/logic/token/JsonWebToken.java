@@ -1,6 +1,7 @@
 package com.personalproject.integrated.logic.token;
 
 import com.personalproject.integrated.entity.User;
+import com.personalproject.integrated.logic.role.UserRole;
 import com.personalproject.integrated.service.RedisService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,11 +17,16 @@ import java.util.Date;
 
 @Component
 public class JsonWebToken {
-    @Autowired
     private RedisService redisService;
+    private TokenCookie tokenCookie;
+    private UserRole userRole;
 
     @Autowired
-    private TokenCookie tokenCookie;
+    public JsonWebToken(RedisService redisService, TokenCookie tokenCookie, UserRole userRole) {
+        this.redisService = redisService;
+        this.tokenCookie = tokenCookie;
+        this.userRole = userRole;
+    }
 
     @Value("${personal-project.jwt.secret}")
     private String secret;
@@ -48,6 +54,9 @@ public class JsonWebToken {
             Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
             String tokenCached = redisService.getToken();
             if(claims.getExpiration().after(new Date()) && token.equals(tokenCached)) {
+                // update user's role info with user id inside token
+                userRole.updateCurrentUserRole(((Number) claims.get("userId")).longValue());
+
                 // if token is valid, update its expiration and store it in both client cookie and cache server
                 String updatedToken = updateTokenExpiration(claims);
                 redisService.storeToken(updatedToken);

@@ -98,3 +98,10 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+
+.disabled  {
+  color: currentColor;
+  cursor: not-allowed;
+  text-decoration: none;
+  pointer-events: none;
+}
