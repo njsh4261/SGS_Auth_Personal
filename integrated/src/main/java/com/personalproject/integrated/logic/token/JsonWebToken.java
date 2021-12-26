@@ -1,4 +1,4 @@
-package com.personalproject.integrated.logic;
+package com.personalproject.integrated.logic.token;
 
 import com.personalproject.integrated.entity.User;
 import com.personalproject.integrated.service.RedisService;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Objects;
 
 @Component
 public class JsonWebToken {

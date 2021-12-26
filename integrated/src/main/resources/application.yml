@@ -5,6 +5,10 @@ server:
       enabled: true
 
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: db_url_here
@@ -32,3 +36,4 @@ personal-project:
     port: cache_server_port_here
   cookie:
     access-token: "accessToken"
+    refresh-token: "refreshToken"

@@ -41,6 +41,7 @@
                 <h1 class="h2">Manage User</h1>
             </div>
             <form th:method="PUT" th:action="@{/admin/edit-user/{id}(id=${user.id})}" th:object="${user}">
+                <input type="hidden" name="_method" value="PUT">
                 <div class="d-flex flex-column pt-3 pb-2 mb-3 border-bottom">
                     <input type="hidden" id="editUserId" th:value="${user.id}"/>
                     <div class="col-md-6">
@@ -66,6 +67,7 @@
             </form>
             <a class="w-100 btn btn-outline-secondary float-right" th:href="@{/admin}">Cancel</a>
             <form th:method="DELETE" th:action="@{/admin/delete-user/{id}(id=${user.id})}">
+                <input type="hidden" name="_method" value="DELETE">
                 <button class="w-100 btn btn-outline-danger float-right" type="submit">Delete user</button>
             </form>
         </main>

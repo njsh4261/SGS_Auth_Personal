@@ -1,4 +1,4 @@
-package com.personalproject.integrated.logic;
+package com.personalproject.integrated.logic.token;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

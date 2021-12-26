@@ -1,7 +1,7 @@
 package com.personalproject.integrated.config;
 
-import com.personalproject.integrated.logic.JsonWebToken;
-import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.token.JsonWebToken;
+import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +40,7 @@ public class WithTokenInterceptor implements HandlerInterceptor {
                 // proceed if token is valid
                 return true;
             }
-            // remove token from cookie
+            // remove invalid token from cookie
             tokenCookie.removeToken(response);
         }
         // remove token in cache server if exists

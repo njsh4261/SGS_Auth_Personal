@@ -1,7 +1,7 @@
 package com.personalproject.integrated.config;
 
-import com.personalproject.integrated.logic.JsonWebToken;
-import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.token.JsonWebToken;
+import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,16 +32,16 @@ public class WithoutTokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
-        // access token should exist in cookie
+        // get token from cookie if exist
         String accessToken = tokenCookie.getAccessToken(request);
+
+        // if token exists and is valid, redirect to admin page
         if(accessToken != null) {
-            // access token should be valid
             if(jsonWebToken.verifyToken(accessToken, response)) {
-                // if token is valid, redirect to admin server
                 response.sendRedirect(adminServerUrl);
                 return false;
             }
-            // remove token from cookie
+            // remove invalid token from cookie
             tokenCookie.removeToken(response);
         }
         // remove token in cache server if exists

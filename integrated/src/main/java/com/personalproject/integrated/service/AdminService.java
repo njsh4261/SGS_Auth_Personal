@@ -1,7 +1,7 @@
 package com.personalproject.integrated.service;
 
 import com.personalproject.integrated.entity.User;
-import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

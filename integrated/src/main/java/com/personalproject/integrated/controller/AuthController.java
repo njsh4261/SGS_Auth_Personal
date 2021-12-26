@@ -2,7 +2,7 @@ package com.personalproject.integrated.controller;
 
 import com.personalproject.integrated.dto.LoginDto;
 import com.personalproject.integrated.dto.UserDto;
-import com.personalproject.integrated.logic.TokenCookie;
+import com.personalproject.integrated.logic.token.TokenCookie;
 import com.personalproject.integrated.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
