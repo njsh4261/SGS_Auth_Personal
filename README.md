@@ -1,4 +1,4 @@
-# Auth
+# SGS_Auth_Personal
 - Access Token을 이용한 로그인 기능 구현
 - 추가로 개선할 사항: [Todo](https://github.com/njsh4261/auth/issues/7)
 
